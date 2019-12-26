@@ -27,7 +27,10 @@ $(EXES) : $(OBJS)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 
-.PHONY : clean
+.PHONY : clean open_files
 
 clean :
 	rm -f $(ODIR)/*.o $(TEST)/*.o $(EXES)
+
+open_files :
+	atom -n $(IDIR)/jpg_edit.h $(SDIR)/jpg_edit.c $(SDIR)/test_jpg_edit.c
