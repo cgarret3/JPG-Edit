@@ -14,10 +14,10 @@ DEPS = $(patsubst %, $(IDIR)/%, $(_DEPS))
 _SRCS = jpg_edit.c
 SRCS = $(patsubst %, $(SDIR)/%, $(_SRCS))
 
-_OBJS = jpg_edit.o
+_OBJS = jpg_edit.o test_jpg_edit.o
 OBJS = $(patsubst %, $(ODIR)/%, $(_OBJS))
 
-EXES = test
+EXES = test_jpg_edit
 
 
 $(ODIR)/%.o : $(SDIR)/%.c $(DEPS)
