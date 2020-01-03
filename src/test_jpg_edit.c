@@ -5,21 +5,15 @@
 
 int main(int argc, char** argv)
 {
-  printf("TODO: Not yet implemented.\n");
-  return(-1);
-
-  
   char* filename = NULL;
-  if((filename = jpg_edit_parse_argv(argc, argv, filename)))
+  if((filename = jpg_edit_parse_argv(argc, argv, filename)) != NULL)
   {
-    perror("Issue encountered parsing argv: ");
-    return(-1);
+    printf("\n%s\n", filename);
   }
-
-  printf("%s", filename);
-
-
-
+  else
+  {
+    return 0;
+  }
 
   return 0;
 }

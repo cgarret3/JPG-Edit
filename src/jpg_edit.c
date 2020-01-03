@@ -5,8 +5,6 @@
 
 char* jpg_edit_parse_argv(int argc, char** argv, char* filename)
 {
-  printf("%s\n", argv[0]);//////////////////////////////////////////////////////
-
   // Parse argv
   int opt;
   char user_answer;
@@ -17,17 +15,16 @@ char* jpg_edit_parse_argv(int argc, char** argv, char* filename)
     {
       case 'f':
         filename = optarg;
-        printf("%s\n", filename);///////////////////////////////////////////////
         break;
       case '?':
         if(optopt == 'f')
         {
-          printf("\nMissing filename after argument -- f");
+          return NULL;
         }
         else
         {
           printf("\nCorrect usage: ./test -f <filename>\n\nExiting...\n\n");
-          return 0;
+          return NULL;
         }
         break;
      }
@@ -41,23 +38,27 @@ char* jpg_edit_parse_argv(int argc, char** argv, char* filename)
     if(user_answer != 'y' && user_answer != 'Y')
     {
       printf("\nExiting...\n\n");
-      return 0;
+      return NULL;
     }
     else
     {
       filename = "test.jpg";
-      printf("Output filename is set to '%s'\n\n", filename);
+      printf("\nOutput filename is set to '%s'\n", filename);
     }
   }
   // Ensure the filename follows the format xxx.jpg
   else
   {
-    printf("filename != NULL\n");///////////////////////////////////////////////
     for(int i = 0; i <= strlen(filename); i++)
     {
       if(filename[i] == '.' || filename[i] == '\0')
       {
-        if(
+        if(i == 0)
+        {
+          printf("No filename before '.jpg' extension\n");
+          return NULL;
+        }
+        else if(
           strlen(filename) >= i+4 &&
           filename[i+1] == 'j' &&
           filename[i+2] == 'p' &&
@@ -65,46 +66,17 @@ char* jpg_edit_parse_argv(int argc, char** argv, char* filename)
           filename[i+4] == '\0')
         {
           // do nothing, the filename follows the format correctly
-          printf("Correct Format\n");///////////////////////////////////////////
+          break;
         }
         else
         {
-          printf("\nThe filename must follow the format 'xxx.jpg'.  End this filename in '.jpg'? \n(Press 'y' for 'yes' or any other key to quit) ");
-          scanf("%c", &user_answer);
-          if(user_answer == 'y' || user_answer == 'Y')
-          {
-            // I choose not to sprintf directly onto filename in case
-            // of memory overwrite (unlikely but still...) so it's
-            // a bit verbose
-
-            char tmp[i+4];
-            int j;
-            for(j = 0; j < i; j++)
-            {
-              tmp[j] = filename[j];
-            }
-
-            tmp[j] = '.';
-            tmp[j+1] = 'j';
-            tmp[j+2] = 'p';
-            tmp[j+3] = 'g';
-            tmp[j+4] = '\0';
-            filename = tmp;
-
-            printf("The filename has been set to '%s'\n", filename);
-            break;
-          }
-          else
-          {
-            printf("\nExiting...\n\n");
-            return 0;
-          }
+          printf("\nThe filename must follow the format 'xxx.jpg'.  \nExiting...\n\n");
+          return NULL;
         }
       }
     }
   }
-
-  return 0;
+  return filename;
 }
 
 void jpg_edit_read_image()
